@@ -1,0 +1,8 @@
+delete  FROM employees2
+      WHERE rownum IN (SELECT rownum
+                              FROM (SELECT rownum,
+                                           ROW_NUMBER ()
+                                           OVER (PARTITION BY employee_id
+                                                 ORDER BY NULL)
+                                              AS rnk
+                                      FROM employees2 emp) where rnk >1) ;
